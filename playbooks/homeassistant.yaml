@@ -1,0 +1,6 @@
+- name: Install Home Assistant
+  hosts: server
+  roles:
+    - role: ../roles/compose_dockge
+      vars:
+        container: homeassistant

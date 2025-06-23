@@ -1,0 +1,13 @@
+services:
+  raneto:
+    image: lscr.io/linuxserver/raneto:latest
+    container_name: raneto
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
+    volumes:
+      - "{{ ansible_user_dir }}/config/raneto:/config"
+    ports:
+      - 3008:3000
+    restart: unless-stopped

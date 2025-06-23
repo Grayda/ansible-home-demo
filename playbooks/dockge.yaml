@@ -1,0 +1,26 @@
+- name: Install Docker
+  hosts: all
+  roles:
+    - role: geerlingguy.docker
+      vars:
+        docker_edition: ce
+        docker_install_compose_plugin: true
+      become: true
+  tasks:
+    - name: Create Dockge data folder
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/data/dockge"
+        state: directory
+
+    - name: Create Dockge stacks folder
+      ansible.builtin.file:
+        path: "/opt/stacks"
+        state: directory
+      become: true
+      
+    - name: Create and start Dockge container
+      community.docker.docker_compose_v2:
+        definition: "{{ lookup('ansible.builtin.template', '../files/dockge/docker-compose.yaml.j2') | from_yaml }}"
+        project_name: dockge
+        state: present
+      become: true      

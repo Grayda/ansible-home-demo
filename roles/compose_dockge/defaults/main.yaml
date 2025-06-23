@@ -1,0 +1,5 @@
+# container: 
+compose_filename: docker-compose.yaml.j2 # The compose template to search for in files/<name>
+base_dir: "{{ ansible_user_dir }}" # Where should the config and data folders be created?
+extra_directories: [] # The list of extra folders to create
+autostart: false # if true, will start the container after creation

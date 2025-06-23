@@ -1,0 +1,2 @@
+ansible-galaxy install -r requirements.yaml
+ansible-playbook -u yourusername -i inventory.yaml --become-password-file credentials.txt --connection-password-file credentials.txt ./playbooks/${1:-main.yaml}

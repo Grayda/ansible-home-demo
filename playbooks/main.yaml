@@ -1,0 +1,11 @@
+# Import the Dockge and Docker playbook
+- name: Install Dockge and Docker
+  ansible.builtin.import_playbook: dockge.yaml
+
+# Import the Home Assistant playbook
+- name: Install Home Assistant
+  ansible.builtin.import_playbook: homeassistant.yaml
+
+# Import the Raneto playbook
+- name: Install Raneto
+  ansible.builtin.import_playbook: raneto.yaml

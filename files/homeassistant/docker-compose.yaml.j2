@@ -1,0 +1,12 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - "{{ ansible_user_dir }}/config/homeassistant:/config"
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+      - /dev:/dev:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host

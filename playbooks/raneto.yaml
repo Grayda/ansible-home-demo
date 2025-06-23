@@ -1,0 +1,6 @@
+- name: Install Raneto
+  hosts: server
+  roles:
+    - role: ../roles/compose_dockge
+      vars:
+        container: raneto

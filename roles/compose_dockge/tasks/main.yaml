@@ -1,0 +1,54 @@
+# This role sets up everything you need to deploy a container with dockge
+
+- name: Load in task specific vars for {{ container }}
+  ansible.builtin.include_vars:
+    dir: "{{ playbook_dir }}/../vars"
+    files_matching: "{{ container }}"
+
+- name: Create the {{ container }} config and data folders
+  ansible.builtin.file:
+    path: "{{ base_dir }}/{{ item }}/{{ container }}"
+    state: directory
+  loop:
+    - config
+    - data
+
+- name: Create extra folders
+  ansible.builtin.file:
+    path: "{{ item['path'] | default(item) }}"
+    mode: "{{ item['mode'] | default('1777') }}"
+    state: directory
+  loop: "{{ extra_directories | from_yaml }}"
+  when: "extra_directories | length > 0"
+
+- name: Create dockge stacks folder for {{ container }}
+  ansible.builtin.file:
+    path: "/opt/stacks/{{ container }}"
+    state: directory
+  become: true
+
+- name: Render {{ compose_filename }} template
+  ansible.builtin.template:
+    src: "../files/{{ container }}/{{ compose_filename }}" # Relative to this role, and not to the playbook!
+    dest: "/opt/stacks/{{ container }}/compose.yaml"
+  become: true
+
+- name: Check if .env is there
+  ansible.builtin.stat:
+    path: "../files/{{ container }}/.env.j2"
+  delegate_to: localhost
+  register: env_exists
+
+- name: Copy {{ container }} .env file
+  ansible.builtin.template:
+    src: "../files/{{ container }}/.env.j2"
+    dest: "/opt/stacks/{{ container }}/.env"
+  become: true
+  when: env_exists.stat.exists
+
+- name: Start {{ container }}
+  community.docker.docker_compose_v2:
+    project_src: "/opt/stacks/{{ container }}/"
+    state: present
+  when: autostart
+  become: true

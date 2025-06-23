@@ -1,0 +1,2 @@
+some_variable: abc123
+# some_private_variable: "Make a new file in vars/private with the same name and put some_private_variable in there"
