@@ -4,15 +4,18 @@ This is a sample ansible playbook for deploying my home server.
 
 ## Usage
 
-1. Adjust `inventory.yaml` as needed
-2. Create a file in the root of this folder called `credentials.txt` and put your SSH / becomes password in there
-3. Run `bash install.sh`. This will install any necessary requirements, then run `playbooks/main.yaml`. You can pass it the name of a playbook (e.g. `bash install.sh homeassistant.yaml`) to just run that playbook.
-4. If you want to add more services:
-  - Create a folder in `files` (e.g. `files/glances`)
-  - Place your `docker-compose.yaml` file in there with the `.j2` extension (e.g. `files/glances/docker-compose.yaml.j2`)
-  - (Optional) create a file in the `vars` folder with the same folder name (e.g. `vars/glances.yaml`). You can do the same with the `vars/private` folder if you want to avoid checking in private info into git
-  - Duplicate an existing playbook (e.g. `raneto.yaml`) and just change the `container` variable to match the folder name from before (e.g. `container: glances`)
-  - Run `install.sh` against your new playbook (e.g. `bash install.sh glances.yaml`)
+1. Install ansible. Instructions can be found on the [Ansible website](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pipx-install)
+2. Change the IP address in `inventory.yaml` to match your machine
+3. Create a file in the root of this folder called `credentials.txt` and put your SSH password in there
+4. Run `bash install.sh`. This will install any necessary requirements, then it will run `playbooks/main.yaml`. You can pass it the name of a playbook (e.g. `bash install.sh homeassistant.yaml`) to just run that playbook.
+
+## Adding more services
+1. Create a new folder in the `files` folder (e.g. `files/glances/`)
+2. Place your `docker-compose.yaml` file in that folder, and append `.j2` to the filename (e.g. `files/glances/docker-compose.yaml.j2`)
+3. Create a file in the `vars` folder with the same name as the folder (e.g. `files/glances.yaml`). These variables can be used in your `.j2` files. See the [Ansible documentation on variables](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_variables.html#referencing-simple-variables)
+4. Duplicate an existing playbook (e.g. `playbooks/homeassistant.yaml`), rename it (e.g. `playbooks/glances.yaml`) and change as necessary.
+5. Edit `playbooks/main.yaml` and add a new section, similar to the other ones in the file
+6. Run `bash install.sh`. This will add the new docker container (stopped). You just need to start the container using dockge or whatever your preferred container management system is. 
 
 ## About this demo
 
