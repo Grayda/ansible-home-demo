@@ -4,10 +4,11 @@ This is a sample ansible playbook for deploying my home server.
 
 ## Usage
 
-1. Install ansible. Instructions can be found on the [Ansible website](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pipx-install)
-2. Change the IP address in `inventory.yaml` to match your machine
-3. Create a file in the root of this folder called `credentials.txt` and put your SSH password in there
-4. Run `bash install.sh`. This will install any necessary requirements, then it will run `playbooks/main.yaml`. You can pass it the name of a playbook (e.g. `bash install.sh homeassistant.yaml`) to just run that playbook.
+1. Install ansible. Instructions can be found on the [Ansible website](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pipx-install). If using Windows, you need to set up ansible using WSL2.
+2. Download and extract or clone this repository (e.g. `git clone https://github.com/grayda/ansible-home-demo`)
+3. Change the IP address in `inventory.yaml` to match your remote machine (i.e. the machine you are setting up, _not_ the machine you are running ansible on)
+4. Create a file in the root of this folder called `credentials.txt` and put your SSH password in there
+5. Run `bash install.sh`. This will install any necessary requirements, then it will run `playbooks/main.yaml`. You can pass it the name of a playbook (e.g. `bash install.sh homeassistant.yaml`) to just run that playbook.
 
 ## Adding more services
 1. Create a new folder in the `files` folder (e.g. `files/glances/`)
